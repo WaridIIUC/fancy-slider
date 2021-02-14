@@ -5,7 +5,7 @@ const searchBtn = document.getElementById('search-btn');
 const sliderBtn = document.getElementById('create-slider');
 const sliderContainer = document.getElementById('sliders');
 const warningMessage = document.getElementById("warning-h1");
-const totalImages = document.getElementById("total-images-p");
+const totalImages = document.getElementById("total-images-p");   
 const totalSelectedImages = document.getElementById("total-selected-images-p");
 // selected image 
 let sliders = [];
@@ -28,7 +28,8 @@ const showImages = (images) => {
       let div = document.createElement('div');
       div.className = 'col-lg-3 col-md-4 col-xs-6 img-item mb-2';
       div.innerHTML = `<img class="img-fluid img-thumbnail image" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}" >
-                      <p class="image-title">Category: ${image.tags}</p>`;
+                      <p class="image-title">Category: ${image.tags}</p>`;        
+                                                                            // for display image.tags as a Category
       gallery.appendChild(div);
       warningMessage.innerText = "";                      // clear previous warning message 
       totalImages.innerText = images.length;
@@ -143,7 +144,7 @@ searchBtn.addEventListener('click', function () {
   }
   else{
     imagesArea.style.display = 'none';          // clear previous load images area by display none
-    warningMessage.innerText = "Please write somethings on Search";         // display warning if search input is empty
+    warningMessage.innerText = "Please write somethings on Search";         //display warning if search input is empty
   }
 })
 
