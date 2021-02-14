@@ -5,6 +5,8 @@ const searchBtn = document.getElementById('search-btn');
 const sliderBtn = document.getElementById('create-slider');
 const sliderContainer = document.getElementById('sliders');
 const warningMessage = document.getElementById("warning-h1");
+const totalImages = document.getElementById("total-images-p");
+const totalSelectedImages = document.getElementById("total-selected-images-p");
 // selected image 
 let sliders = [];
 
@@ -16,7 +18,8 @@ const KEY = '15674931-a9d714b6e9d654524df198e00&q';
 
 // show images 
 const showImages = (images) => {
-  if(images.length != 0){                                 // check images array is empty or not
+  if(images.length != 0){   
+    console.log();                              // check images array is empty or not
     imagesArea.style.display = 'block';                   // if not empty add & display images
     gallery.innerHTML = '';                               // clear previous load data
     // show gallery title
@@ -24,9 +27,11 @@ const showImages = (images) => {
     images.forEach(image => {
       let div = document.createElement('div');
       div.className = 'col-lg-3 col-md-4 col-xs-6 img-item mb-2';
-      div.innerHTML = ` <img class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">`;
+      div.innerHTML = `<img class="img-fluid img-thumbnail image" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}" >
+                      <p class="image-title">Category: ${image.tags}</p>`;
       gallery.appendChild(div);
       warningMessage.innerText = "";                      // clear previous warning message 
+      totalImages.innerText = images.length;
     })
   }
   else{                                                   // if images array is empty
@@ -54,9 +59,11 @@ const selectItem = (event, img) => {
   let item = sliders.indexOf(img);                        // get img index on a array
   if (item === -1) {
     sliders.push(img);                                    // push image to slider
+    totalSelectedImages.innerText = parseInt(totalSelectedImages.innerText) + 1;
   } else {                                                // for pop image
     element.classList.remove('added');                    // deselect image
     sliders = sliders.filter(img => img != sliders[item]);    // filter specific images from sliders array using index number
+    totalSelectedImages.innerText = parseInt(totalSelectedImages.innerText) - 1;
   }
 }
 var timer
@@ -86,9 +93,10 @@ const createSlider = () => {
   sliders.forEach(slide => {
     let item = document.createElement('div')
     item.className = "slider-item";
-    item.innerHTML = `<img class="w-100"
-    src="${slide}"
-    alt="">`;
+    item.innerHTML = `
+      <img class="w-100"
+      src="${slide}"
+      alt="">`;
     sliderContainer.appendChild(item)
   })
   changeSlide(0)
